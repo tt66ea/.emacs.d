@@ -1,0 +1,68 @@
+(global-linum-mode t) ;;line num 显示行号
+(global-set-key (kbd "RET") 'newline-and-indent)
+
+(setq-default indent-tabs-mode nil)  ;;将tab转变为空格
+(setq c-basic-offset 4)
+(setq default-tab-width 4) ;;tab width 设置缩进以及tab键
+(c-set-offset 'innamespace 0) ;;namespace内不缩进
+
+(setq ring-bell-function 'ignore)
+
+(set-default-font "Consolas-16")
+
+(setq c-default-style "awk");;;设置C语言风格
+
+(electric-pair-mode t)
+(electric-layout-mode t)
+(electric-indent-mode t)
+;;electric pair 括号补全
+
+(setq-default cursor-type 'bar)
+(setq evil-insert-state-cursor 'bar);
+(setq evil-emacs-state-cursor 'bar);
+(show-paren-mode t) ;;show paren 括号配对
+
+(global-hl-line-mode t) ;;high light line 高亮当前行
+(dolist (charset '(kana han symbol cjk-misc bopomofo))
+(set-fontset-font (frame-parameter nil 'font)
+charset
+(font-spec :family "Microsoft Yahei" :size 18)))
+
+(require 'package)
+(add-to-list 'package-archives 
+             '("melpa" . "http://melpa.org/packages/"))
+(package-initialize)
+
+(load-theme 'spacemacs-dark t)
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+(add-hook'c++-mode-common-hook(lambda()))
+(delete-selection-mode)
+
+(setq make-backup-files nil)
+(setq inhibit-splash-screen t)
+(setq auto-save-default nil)
+
+(display-time-mode 1) ;; 常显 
+(setq display-time-24hr-format t) ;;格式 
+(setq display-time-day-and-date t) ;;显示时间、星期、日期
+
+(tool-bar-mode 0) 
+(menu-bar-mode 0) 
+(scroll-bar-mode 0)
+
+(setq neo-window-fixed-size nil)
+(setq neo-window-width 20)
+
+(global-auto-revert-mode 1)
+
+(fset 'yes-or-no-p 'y-or-n-p)
+
+(setq scroll-margin 3  scroll-conservatively 10000)
+
+(setq default-directory "d:/2017gdgzoi61/")
+
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+
+(window-numbering-mode 1)

@@ -1,0 +1,20 @@
+# -*- mode: snippet -*-
+# name: edge
+# key: edge
+# --
+struct note {
+    int t;
+    int val;
+    int next;
+};
+
+int cnt;
+int head[N];
+note e[M<<1];
+
+inline void add(int x,int y,int val) {
+    e[++cnt].t=y;
+    e[cnt].next=head[x];
+    e[cnt].val=val;
+    head[x]=cnt;
+}
