@@ -1,0 +1,22 @@
+# 包管理器下载的插件
+elpa/
+straight/
+# 编译缓存
+eln-cache/
+# 自动保存 / 临时文件
+auto-save-list/
+ac-comphist.dat
+.lsp-session-v1
+smex-items
+projects
+# transient / eshell / url 缓存
+transient/
+eshell/
+url/
+request/
+# irony (Windows binary，不应上传)
+irony/
+# Emacs 备份文件
+*~
+\#*\#
+.#*

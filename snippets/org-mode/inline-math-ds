@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name:inline-math-del-space 
+# key: imads
+# binding: C-c C-m
+# --
+\\($0\\)

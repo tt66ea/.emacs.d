@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name:outline_math 
+# key: oma
+# --
+\\[
+$1
+\\]
