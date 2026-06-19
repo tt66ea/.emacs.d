@@ -69,20 +69,26 @@
   :custom
   (yasnippet-capf-lookup-by 'key)
   :config
-  ;; prog-mode (non-eglot): 仅 yasnippet
+  ;; 归一化边界：强制 yasnippet-capf 使用 symbol 边界（与 eglot 对齐）
+  (defun my/yas-capf-normalized ()
+    "Yasnippet Capf using symbol boundary (same as eglot)."
+    (when-let* ((res (funcall #'yasnippet-capf))
+                (sym (bounds-of-thing-at-point 'symbol)))
+      `(,(car sym) ,(cdr sym) ,@(nthcdr 2 res))))
+  ;; 非 eglot buffer: 仅 yasnippet
   (add-hook 'prog-mode-hook
             (lambda ()
               (setq-local completion-at-point-functions
                           (list #'yasnippet-capf))))
-  ;; eglot 激活后: yasnippet 优先 + nonexclusive eglot
+  ;; eglot buffer: 合并 yasnippet + eglot 到同一弹窗
   (defun my/eglot-capf-nonexclusive ()
-    "EGLOT Capf without exclusivity."
     (cape-wrap-nonexclusive #'eglot-completion-at-point))
   (add-hook 'eglot-managed-mode-hook
             (lambda ()
               (setq-local completion-at-point-functions
-                          (list #'yasnippet-capf
-                                #'my/eglot-capf-nonexclusive)))))
+                          (list (cape-capf-super
+                                 #'my/yas-capf-normalized
+                                 #'my/eglot-capf-nonexclusive))))))
 
 
 (defun my-c-style-setup ()
