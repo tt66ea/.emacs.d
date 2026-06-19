@@ -13,18 +13,15 @@
 
 (set-frame-font "Hack-16")
 
+
 (electric-pair-mode t)
-(electric-layout-mode t)
+;;(electric-layout-mode t)
 (electric-indent-mode t)
 ;;electric pair 括号补全
 
 (setq-default cursor-type 'bar)
 
-(use-package evil
-  :init
-  (setq evil-insert-state-cursor 'bar)
-  (setq evil-emacs-state-cursor 'bar)
-  )
+
 (show-paren-mode t) ;;show paren 括号配对
 
 (global-hl-line-mode t) ;;high light line 高亮当前行
@@ -33,14 +30,19 @@
                     charset
                     (font-spec :family "Microsoft Yahei" :size 18)))
 
-;; (require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-             '("Org" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
-             )
-;; (package-initialize)
-
+(require 'package)
+(setq package-archives '(("gnu"    . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                         ("nongnu" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/")
+                         ("melpa"  . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
+(package-initialize)
+(use-package evil
+  :config
+  (setq evil-insert-state-cursor 'bar)
+  (setq evil-emacs-state-cursor 'bar)
+  )
 (use-package spacemacs-theme
+  :ensure t
+  :no-require t
   :init (load-theme 'spacemacs-dark t))
 
 ;;(add-to-list 'default-frame-alist '(fullscreen . maximized))
@@ -51,7 +53,9 @@
 (setq make-backup-files nil)
 (setq inhibit-splash-screen t)
 (setq auto-save-default nil)
-(setq scroll-margin 3  scroll-conservatively 10000)
+;; pixel-scroll-precision-mode 平滑滚动，与 scroll-margin/scroll-conservatively 冲突
+;; (setq scroll-margin 3  scroll-conservatively 10000)
+(pixel-scroll-precision-mode 1)
 
 (display-time-mode 1) ;; 常显
 (setq display-time-24hr-format t) ;;格式
@@ -62,6 +66,7 @@
 (scroll-bar-mode 0)
 
 (use-package neotree
+  :ensure t
   :init 
   (setq neo-window-fixed-size nil)
   (setq neo-window-width 20)
@@ -69,11 +74,21 @@
 
 (global-auto-revert-mode 1)
 
+;; == Emacs 30 UI/QoL ==
+(global-visual-wrap-prefix-mode 1)
+(kill-ring-deindent-mode 1)
+(minibuffer-regexp-mode 1)
+(setq gud-highlight-current-line t)
+;; Windows: 不跟随系统暗色模式 (保持主题颜色一致)
+(when (eq system-type 'windows-nt)
+  (setq w32-follow-system-dark-mode nil))
+
 (fset 'yes-or-no-p 'y-or-n-p)
 
-(setq default-directory "~/Documents/note/tt66ea/")
-
-(window-numbering-mode 1)
+(setq default-directory "~/Desktop/Algorithm/")
+(use-package window-numbering
+  :ensure t
+  :init (window-numbering-mode 1))
 ;;设置默认读入文件编码
 ;;(prefer-coding-system 'utf-8)
 ;;设置写入文件编码

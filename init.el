@@ -1,18 +1,5 @@
-(let (
-      ;; 加载的时候临时增大`gc-cons-threshold'以加速启动速度。
-      (gc-cons-threshold most-positive-fixnum)
-      ;; 清空避免加载远程文件的时候分析文件。
-      (file-name-handler-alist nil))
-  (require 'benchmark-init-modes)
-  (require 'benchmark-init)
-  (benchmark-init/activate)
-
-    ;; 下面才写你的其它配置
-)
-
-
 ;;(package-vc-install '(org-mode :url "https://code.tecosaur.net/tec/org-mode" :branch "dev"))
-(use-package org :load-path "~/.emacs.d/elpa/org-mode/lisp/")
+;;(use-package org :load-path "~/.emacs.d/elpa/org-mode/lisp/")
 (add-to-list 'load-path "~/.emacs.d/setting")
 (load "base.el")
 (load "code.el")
@@ -20,7 +7,7 @@
 (load "key.el")
 (load "my-evil.el");
 (load "modeline.el")
-(load "org-mode-setting")
+;;(load "org-mode-setting")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -39,20 +26,11 @@
  '(fci-rule-color "#f8fce8")
  '(hl-paren-background-colors '("#e8fce8" "#c1e7f8" "#f8e8e8"))
  '(hl-paren-colors '("#40883f" "#0287c8" "#b85c57"))
- '(org-agenda-files '("/home/tt66ea/Documents/note/tt66ea/高等代数/线性变化.org"))
+ '(org-agenda-files '("C:/Users/tt66ea/Desktop/"))
  '(org-safe-remote-resources
    '("\\`https://fniessen\\.github\\.io\\(?:/\\|\\'\\)"
      "\\`https://fniessen\\.github\\.io/org-html-themes/org/theme-bigblow\\.setup\\'"))
- '(package-selected-packages
-   '(all-the-icons anki-editor atom-one-dark-theme auctex-latexmk
-                   auto-complete-c-headers auto-complete-clang
-                   benchmark-init cdlatex color-theme-solarized
-                   company-c-headers doom-modeline dracula-theme
-                   evil-leader fcitx flycheck flymd htmlize js-comint
-                   lsp-mode markdown-mode+ markdown-preview-mode
-                   minimap neotree org-mode pdf-tools plan9-theme
-                   rainbow-delimiters sis smex spacemacs-theme
-                   treemacs-icons-dired window-numbering yasnippet))
+ '(package-selected-packages nil)
  '(package-vc-selected-packages
    '((org-mode :url "https://code.tecosaur.net/tec/org-mode" :branch
                "dev")))

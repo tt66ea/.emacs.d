@@ -6,6 +6,9 @@ eln-cache/
 # 自动保存 / 临时文件
 auto-save-list/
 ac-comphist.dat
+tree-sitter/
+snippets/
+setting/.archive/
 .lsp-session-v1
 smex-items
 projects

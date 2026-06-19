@@ -9,17 +9,14 @@
 (define-key key-translation-map (kbd "C-;") (kbd "C-x C-s"))
 (global-set-key [C-tab] 'next-buffer)
 (global-set-key (kbd "C-<iso-lefttab>") 'previous-buffer)
-(with-eval-after-load 'cc-mode
-  (define-key c-mode-map [tab] #'company-complete)
-  (define-key c++-mode-map [tab] #'company-complete)
-  (define-key c++-mode-map [backtab] #'indent-for-tab-command)
-)
-;; (define-key c-mode-map  [(tab)] 'company-complete)
-;; (define-key c++-mode-map  [(tab)] 'company-complete)
-;; (define-key c++-mode-map  [backtab] 'indent-for-tab-command)
-(global-set-key (kbd "C-.") 'company-complete-common)
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+;; corfu 自动补全，无需额外绑定 (默认 M-TAB = completion-at-point)
+(global-set-key (kbd "M-x") 'execute-extended-command)
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+;; == Search enhancements (Emacs 30) ==
+(setq grep-use-headings t)              ; grep 结果按文件分组显示
+(setq imenu-flatten t)                   ; imenu 扁平化
+(global-set-key (kbd "C-x p r") 'rgrep) ; 项目内递归 grep
+;; C-x p g = project-find-regexp (project.el 默认)
+
 (provide 'key)
 ;;; key.el ends here
