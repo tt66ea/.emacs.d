@@ -24,7 +24,7 @@
 (add-hook 'prog-mode-hook #'flymake-mode)
 (with-eval-after-load 'flymake
   (setq flymake-indicator-type 'margins)
-  (setq flymake-show-diagnostics-at-end-of-line t)
+  ;;(setq flymake-show-diagnostics-at-end-of-line t)
   (add-to-list 'display-buffer-alist
                `(,(rx bos "*Flymake diagnostics" eos)
                  (display-buffer-reuse-window
@@ -32,6 +32,31 @@
                  (side            . bottom)
                  (reusable-frames . visible)
                  (window-height   . 0.33))))
+
+;; == flyover == (Flymake 现代化行内气泡美化)
+(use-package flyover
+  :ensure t
+  :after flymake
+  :hook (flymake-mode . flyover-mode)
+  :custom
+  ;; 明确仅对接 flymake
+  (flyover-checkers '(flymake))
+  (flyover-levels '(error warning))
+  ;; 行末模式：避免垂直插入虚拟行导致代码行上下抖动
+  (flyover-show-at-eol t)
+  ;; corfu 自动补全菜单激活时自动避让隐藏
+  (flyover-hide-during-completion t)
+  ;; 主题色彩自适应与防刺眼明暗度微调
+  (flyover-use-theme-colors t)
+  (flyover-background-lightness 45)
+  (flyover-show-virtual-line nil)
+  ;; 边框风格（若安装了 Hack Nerd Font 可换为 'pill）
+  (flyover-border-style 'none)
+  ;; 图标修复：使用通用 Unicode 符号，避免缺失 Nerd Font 时的方块乱码
+  (flyover-show-icon t)
+  (flyover-error-icon "● ")
+  (flyover-warning-icon "▲ ")
+  (flyover-info-icon "◆ "))
 
 ;; == corfu == (GNU ELPA, CAPF-based)
 (use-package corfu

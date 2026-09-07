@@ -11,7 +11,60 @@
 
 (setq ring-bell-function 'ignore)
 
-(set-frame-font "Hack-16")
+;; ====================================================================
+;; 字体配置 (GUI 环境生效，兼顾终端/守护进程与多 Frame)
+;; ====================================================================
+
+(defun my/setup-fonts (&optional frame)
+  "Setup fonts for Emacs GUI frame."
+  (when (display-graphic-p frame)
+    (let* ((f (or frame (selected-frame)))
+           (en-font "Hack-16")
+           ;; 优先使用已安装的霞鹜文楷等宽，若无则使用微软雅黑
+           (zh-font (cond
+                     ((find-font (font-spec :family "LXGW WenKai Mono")) "LXGW WenKai Mono")
+                     ((find-font (font-spec :family "霞鹜文楷等宽"))     "霞鹜文楷等宽")
+                     ((find-font (font-spec :family "Microsoft YaHei"))  "Microsoft YaHei")
+                     (t "Microsoft Yahei"))))
+      ;; 1. 设置默认英文字体（同时应用到当前 Frame 与未来所有新建 Frame）
+      (set-frame-font en-font nil (list f))
+      (add-to-list 'default-frame-alist `(font . ,en-font))
+
+      ;; 2. 设置中文字体（nil 表示针对 frame f 的 active fontset；t 表示针对全局 default fontset）
+      ;; 不写死 :size，让 Emacs 自动按 Hack-16 的字形度量按比例联动缩放
+      (dolist (charset '(kana han bopomofo cjk-misc))
+        (set-fontset-font nil charset (font-spec :family zh-font) f)
+        (set-fontset-font t   charset (font-spec :family zh-font)))
+
+      ;; 3. 符号字符集（Segoe UI Symbol 保障原生符号，排除中文全角劫持）
+      (set-fontset-font nil 'symbol (font-spec :family "Segoe UI Symbol") f)
+      (set-fontset-font t   'symbol (font-spec :family "Segoe UI Symbol")))))
+
+;; 启动时对当前 GUI 窗口立即生效
+(when (display-graphic-p)
+  (my/setup-fonts))
+
+;; 新建 GUI 窗口时自动应用
+(add-hook 'after-make-frame-functions #'my/setup-fonts)
+
+;; --------------------------------------------------------------------
+;; 【备用配置：方案 A（经典 Hack + 微软雅黑 去毒修复版）】
+;; 若需完全切回传统方案 A，取消下面注释并注释掉上方 (my/setup-fonts) 即可：
+;; --------------------------------------------------------------------
+;; (when (display-graphic-p)
+;;   (set-frame-font "Hack-16" nil t)
+;;   (add-to-list 'default-frame-alist '(font . "Hack-16"))
+;;   (dolist (charset '(kana han bopomofo cjk-misc))
+;;     (set-fontset-font "fontset-default" charset
+;;                       (font-spec :family "Microsoft Yahei" :size 16)))
+;;   (set-fontset-font "fontset-default" 'symbol
+;;                     (font-spec :family "Segoe UI Symbol")))
+;; --------------------------------------------------------------------
+;; 【备用配置：方案 B2（全盘纯正霞鹜文楷等宽 LXGW 单字体一体化）】
+;; (when (display-graphic-p)
+;;   (set-frame-font "LXGW WenKai Mono-16" nil t)
+;;   (add-to-list 'default-frame-alist '(font . "LXGW WenKai Mono-16")))
+;; --------------------------------------------------------------------
 
 
 (electric-pair-mode t)
@@ -25,10 +78,6 @@
 (show-paren-mode t) ;;show paren 括号配对
 
 (global-hl-line-mode t) ;;high light line 高亮当前行
-(dolist (charset '(kana han symbol cjk-misc bopomofo))
-  (set-fontset-font (frame-parameter nil 'font)
-                    charset
-                    (font-spec :family "Microsoft Yahei" :size 18)))
 
 (require 'package)
 (setq package-archives '(("gnu"    . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
@@ -54,7 +103,7 @@
 (setq inhibit-splash-screen t)
 (setq auto-save-default nil)
 ;; pixel-scroll-precision-mode 平滑滚动，与 scroll-margin/scroll-conservatively 冲突
-;; (setq scroll-margin 3  scroll-conservatively 10000)
+(setq scroll-margin 3  scroll-conservatively 10000)
 (pixel-scroll-precision-mode 1)
 
 (display-time-mode 1) ;; 常显

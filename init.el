@@ -5,7 +5,8 @@
 (load "code.el")
 (load "file.el")
 (load "key.el")
-(load "my-evil.el");
+(load "my-evil.el")
+(load "typst.el")
 (load "modeline.el")
 ;;(load "org-mode-setting")
 
